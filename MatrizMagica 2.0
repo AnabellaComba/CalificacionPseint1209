@@ -1,0 +1,111 @@
+Algoritmo MatrizMagica
+	
+	Definir n, m, matriz Como Entero
+	
+	Escribir "Ingrese el tamaño de la matriz cuadrada (no mayor a 10):"
+	Leer n
+	
+	Si n > 10 Entonces
+		Escribir "El tamaño máximo permitido es 10."
+	FinSi
+	
+	m = n
+	
+	Dimension matriz[n,m]
+	
+	// Llamamos a los procedimientos
+	crearMatriz(n, m, matriz)
+	mostrarMatriz(n, m, matriz)
+	
+	Si verificarMatrizMagica(n, m, matriz) Entonces
+		Escribir "La matriz es mágica."
+		Escribir "La suma de filas, columnas y diagonales es: ", sumaMatriz(n, m, matriz)
+	SiNo
+		Escribir "La matriz NO es mágica."
+	FinSi
+	
+FinAlgoritmo
+
+SubProceso crearMatriz(n, m, matriz)
+	
+	Definir i, j Como Entero
+	
+	Para i = 0 Hasta n-1 Hacer
+		Para j = 0 Hasta m-1 Hacer
+			Repetir
+				Escribir "Ingrese un valor entre 1 y 9 para la fila ", i+1, " y columna ", j+1, ":"
+				Leer matriz[i,j]
+			Mientras Que matriz[i,j] < 1 o matriz[i,j] > 9
+		FinPara
+	FinPara
+	
+FinSubProceso
+
+SubProceso mostrarMatriz(n, m, matriz)
+	
+	Definir i, j Como Entero
+	
+	Para i = 0 Hasta n-1 Hacer
+		Para j = 0 Hasta m-1 Hacer
+			Escribir matriz[i,j], " " Sin Saltar
+		FinPara
+		Escribir ""
+	FinPara
+	
+FinSubProceso
+
+Funcion sum = sumaMatriz(n, m, matriz)
+	
+	Definir sum, i Como Entero
+	sum = 0
+	
+	// Asumiendo que la suma de la primera fila es la suma mágica
+	Para i = 0 Hasta n-1 Hacer
+		sum = sum + matriz[0,i]
+	FinPara
+	
+FinFuncion
+
+
+Funcion log = verificarMatrizMagica(n, m, matriz)
+	
+	Definir sumFila, sumCol, sumDiagonal1, sumDiagonal2, i, j, sumaMagica Como Entero
+	Definir log Como Logico
+	
+	sumaMagica = sumaMatriz(n, m, matriz) // Usamos la primera fila como referencia
+	
+	sumDiagonal1 = 0
+	sumDiagonal2 = 0
+	
+	// Verificar filas y columnas
+	Para i = 0 Hasta n-1 Hacer
+		sumFila = 0
+		sumCol = 0
+		Para j = 0 Hasta m-1 Hacer
+			sumFila = sumFila + matriz[i,j]
+			sumCol = sumCol + matriz[j,i]
+		FinPara
+		
+		// Si alguna fila o columna no coincide con la suma mágica, no es mágica
+		Si sumFila <> sumaMagica o sumCol <> sumaMagica Entonces
+			
+			log = Falso
+			
+		FinSi
+	FinPara
+	
+	// Verificar las diagonales
+	Para i = 0 Hasta n-1 Hacer
+		sumDiagonal1 = sumDiagonal1 + matriz[i,i] // Diagonal principal
+		sumDiagonal2 = sumDiagonal2 + matriz[i,n-i-1] // Diagonal secundaria
+	FinPara
+	
+	// Verificar si las diagonales también coinciden
+	Si sumDiagonal1 <> sumaMagica o sumDiagonal2 <> sumaMagica Entonces
+		log = Falso
+	FinSi
+	
+	log = Verdadero // Si pasa todas las verificaciones, es mágica
+	
+	
+FinFuncion
